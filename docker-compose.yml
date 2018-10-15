@@ -1,9 +1,9 @@
 version: "3"
 services:
   web:
-    image: junaidskhan/bedrock-surfer:0.1
+    image: junaidskhan/bedrock-surfer:0.2
     deploy:
-      replicas: 5
+      replicas: 2
       resources:
         limits:
           cpus: "0.1"

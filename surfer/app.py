@@ -2,11 +2,15 @@ from flask import Flask
 from redis import Redis, RedisError
 import os
 import socket
+import connexion
 
 # Connect to Redis
 redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
 
 app = Flask(__name__)
+app = connexion.App(__name__, specification_dir='./')
+app.add_api('surfer_api.yaml')
+
 
 @app.route("/")
 def hello():
@@ -21,4 +25,4 @@ def hello():
     return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname(), visits=visits)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=8080)

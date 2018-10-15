@@ -1,0 +1,150 @@
+swagger: "2.0"
+
+info:
+  description: "This API allows you to manage Terraform deployments"
+  version: "1.0.0"
+  title: "Bedrock Surfer API"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "jun_s_k@yahoo.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+basePath: "/api"
+tags:
+- name: "serviceChain"
+  description: "Manage service chains"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+schemes:
+- "https"
+- "http"
+paths:
+  /serviceChain:
+    post:
+      tags:
+      - "serviceChain"
+      summary: "Add a new service chain"
+      description: ""
+      operationId: "surfer.addServiceChain"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Service Chain that needs to be created"
+        required: true
+        schema:
+          $ref: "#/definitions/serviceChain"
+      responses:
+        405:
+          description: "Invalid input"
+    put:
+      tags:
+      - "serviceChain"
+      summary: "Update an existing service chain"
+      description: ""
+      operationId: "surfer.updateServiceChain"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Service chain object that needs to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/serviceChain"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Service chain not found"
+        405:
+          description: "Validation exception"
+  /serviceChain/{serviceChainId}:
+    get:
+      tags:
+      - "serviceChain"
+      summary: "Find serviceChain by ID"
+      description: "Returns a single serviceChain"
+      operationId: "surfer.getServiceChainById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "serviceChainId"
+        in: "path"
+        description: "ID of serviceChain to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/serviceChain"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "serviceChain not found"
+    delete:
+      tags:
+      - "serviceChain"
+      summary: "Deletes a serviceChain"
+      description: ""
+      operationId: "surfer.deleteServiceChain"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      - name: "serviceChainId"
+        in: "path"
+        description: "serviceChain id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "serviceChain not found"
+definitions:
+  serviceChain:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        example: "AWS"
+      status:
+        type: "string"
+        description: "Provisioning status"
+        enum:
+        - "pending"
+        - "completed"
+    xml:
+      name: "serviceChain"
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
